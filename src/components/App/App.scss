@@ -1,0 +1,173 @@
+@import '../../assets/scss/_mixin.scss';
+
+.container {
+    width: 100%;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+.sort-panel {
+    @include flex(space-between, center);
+    flex-wrap: wrap;
+    gap: 50px;
+    @include font(20, 600, 26);
+    margin-bottom: 50px;
+
+    &__shop {
+        @include flex(flex-start, center);
+        gap: 20px;
+
+        > div {
+            position: relative;
+
+            svg {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                right: 1.8rem;
+                pointer-events: none;
+            }
+        }
+
+        select {
+            min-width: 10em;
+            max-width: 16em;
+            border-radius: 5px;
+
+            option {
+                background-color: transparent;
+                cursor: pointer;
+            }
+        }
+    }
+
+    &__calendar {
+        @include flex(flex-start, center);flex-wrap: wrap;
+        gap: 50px;
+        
+    }
+
+    &__calendar-date {
+        @include flex(flex-start, center);
+        border-radius: 5px;
+        overflow: hidden;
+
+        button {
+            padding: 1.7rem 2.5rem;
+        }
+
+        select {
+            min-width: 10em;
+            max-width: 16em;
+            border-left: none;
+            border-right: none;
+        }
+
+        > div {
+            position: relative;
+
+            svg {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                right: 1.8rem;
+                pointer-events: none;
+            }
+        }
+    }
+
+    &__calendar-period {
+        @include flex(flex-start, center);
+        gap: 3px;
+        border-radius: 5px;
+        overflow: hidden;
+
+        button {
+            @include font(20, 400, 26);
+            color: #fff;
+            padding: 1.4rem 2.5rem;
+        }
+    }
+
+    &__arrow-down {
+        width: 2.2rem;
+        height: 1.2rem;
+    }
+
+    &__arrow-left, &__arrow-right {
+        width: 1.2rem;
+        height: 2.2rem;
+        fill: #fff;
+    }
+}
+
+.emploee-table {
+    width: 100%;
+    // position: fixed;
+    
+    
+    border-radius: 5px;
+
+    &__header {
+        display: grid;
+        background-color: var(--frame-color);
+        border: 2px solid var(--frame-color);
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        grid-gap: 0.2rem;
+        grid-template-columns: 300px repeat(4, 1fr);
+        grid-template-rows: min-content;
+
+        > div {
+            padding-top: 1.6rem;
+            background-color: #fff;
+            text-align: center;
+            @include font(20, 600, 26);
+        }
+    }
+
+    &__header-cell-hours-segments {
+        width: 100%;
+        height: 3.6rem;
+        position: relative;
+        @include flex(space-between, flex-end);
+        margin-top: 1.6rem;
+        padding: 0 12.5%;
+        @include font(16, 600, 20);
+        color: var(--grey-color);
+
+        > div {
+            width: 0.2rem;
+            height: 0.8rem;
+            background-color: var(--grey-color);
+
+            > div {
+                position: absolute;
+                top: 0.4rem;
+                transform: translateX(-50%);
+            }
+        }
+    }
+
+    &__body {
+        display: grid;
+        background-color: var(--frame-color);
+        border: 0.2rem solid var(--frame-color);
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        border-top: none;
+        grid-gap: 0.2rem;
+        grid-template-columns: 300px repeat(4, 1fr);
+        grid-template-rows: min-content;
+
+        > div {
+            background-color: #fff;
+            @include font(20, 600, 40);
+
+            &:nth-child(5n+1) {
+                padding: 1rem 2.5rem;
+                text-align: left;
+            }
+        }
+    }
+}

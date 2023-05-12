@@ -1,0 +1,58 @@
+@import './mixin';
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --blue-color: #61a9df;
+    --blue-active-color: #4193d5;
+    --green-color: #7bb65a;
+    --pink-color: #cf559d;
+    --frame-color: #dee2e6;
+    --grey-color: #808080;
+
+    font-size: 62.5%;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    @include font(20, 400, 26);
+}
+
+h1 {
+    @include font(40, 700, 50);
+    margin: 60px 0 40px;
+}
+
+button {
+    @include flex(center, center);
+    background-color: var(--blue-color);
+    border: none;
+    transition: background-color 200ms ease-in;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--blue-active-color);
+    }
+
+}
+
+select {
+    @include font(20, 400, 26);
+    padding: 1.2rem 1.8rem;
+    background-color: transparent;
+    appearance: none;
+    border: 0.3rem solid var(--blue-color);
+    cursor: pointer;
+
+    &::-ms-expand {
+        display: none;
+    }
+
+    option {
+        background-color: transparent;
+    }
+}

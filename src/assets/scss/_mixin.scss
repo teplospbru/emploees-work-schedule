@@ -1,0 +1,21 @@
+/* flex */
+@mixin flex($justify, $align, $direction: row) {
+    display: flex;
+    justify-content: $justify;
+    align-items: $align;
+    flex-direction: $direction;
+}
+
+/* font */
+@function rem($px) {
+    @return calc($px / 10) + rem;
+}
+
+@mixin font($size, $weight: $base-weight, $line: 1, $style: normal) {
+    font: {
+        size: rem($size);
+        weight: $weight;
+        style: $style;
+        }
+    line-height: rem($line);
+}
