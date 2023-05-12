@@ -3,6 +3,7 @@
 .container {
     width: 100%;
     max-width: 90%;
+    min-width: 370px;
     margin: 0 auto;
 }
 
@@ -12,6 +13,10 @@
     gap: 50px;
     @include font(20, 600, 26);
     margin-bottom: 50px;
+
+    @media screen and (max-width: 960px) {
+        gap: 30px;
+    }
 
     &__shop {
         @include flex(flex-start, center);
@@ -44,6 +49,10 @@
     &__calendar {
         @include flex(flex-start, center);flex-wrap: wrap;
         gap: 50px;
+
+        @media screen and (max-width: 960px) {
+            gap: 30px;
+        }
         
     }
 
@@ -86,6 +95,18 @@
             @include font(20, 400, 26);
             color: #fff;
             padding: 1.4rem 2.5rem;
+
+            &.tablet {
+                @media screen and (max-width: 960px) {
+                    display: none;
+                }
+            }
+    
+            &.mobile {
+                @media screen and (max-width: 650px) {
+                    display: none;
+                }
+            }
         }
     }
 
@@ -102,11 +123,15 @@
 }
 
 .emploee-table {
-    width: 100%;
-    // position: fixed;
-    
-    
+    width: 100%; 
     border-radius: 5px;
+    margin-bottom: 80px;
+
+    .sticky {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
 
     &__header {
         display: grid;
@@ -118,11 +143,35 @@
         grid-template-columns: 300px repeat(4, 1fr);
         grid-template-rows: min-content;
 
+        @media screen and (max-width: 960px) {
+            grid-template-columns: 250px repeat(2, 1fr);
+        }
+
+        @media screen and (max-width: 650px) {
+            grid-template-columns: 200px repeat(1, 1fr);
+        }
+
         > div {
             padding-top: 1.6rem;
             background-color: #fff;
             text-align: center;
             @include font(20, 600, 26);
+
+            @media screen and (max-width: 960px) {
+                @include font(18, 600, 24);
+            }
+        }
+
+        &-cell.tablet {
+            @media screen and (max-width: 960px) {
+                display: none;
+            }
+        }
+
+        &-cell.mobile {
+            @media screen and (max-width: 650px) {
+                display: none;
+            }
         }
     }
 
@@ -159,14 +208,39 @@
         grid-gap: 0.2rem;
         grid-template-columns: 300px repeat(4, 1fr);
         grid-template-rows: min-content;
+        position: relative;
+
+        @media screen and (max-width: 960px) {
+            grid-template-columns: 250px repeat(2, 1fr);
+        }
+
+        @media screen and (max-width: 650px) {
+            grid-template-columns: 200px repeat(1, 1fr);
+        }
 
         > div {
             background-color: #fff;
-            @include font(20, 600, 40);
+            @include font(20, 400, 40);
+
+            @media screen and (max-width: 960px) {
+                @include font(18, 400, 24);
+            }
 
             &:nth-child(5n+1) {
                 padding: 1rem 2.5rem;
                 text-align: left;
+            }
+        }
+
+        .tablet {
+            @media screen and (max-width: 960px) {
+                display: none;
+            }
+        }
+
+        .mobile {
+            @media screen and (max-width: 650px) {
+                display: none;
             }
         }
     }

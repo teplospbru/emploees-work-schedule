@@ -58,59 +58,134 @@ export const App = () => {
             </button>
           </div>
           <div className='sort-panel__calendar-period'>
-            <button>1 день</button>
-            <button>2 дня</button>
-            <button>3 дня</button>
-            <button>4 дня</button>
+            <button className='mobile'>1 день</button>
+            <button className='mobile'>2 дня</button>
+            <button className='mobile tablet'>3 дня</button>
+            <button className='mobile tablet'>4 дня</button>
           </div>
         </div>
       </nav>
 
       <div className='emploee-table'>
-        <div className='emploee-table__header'>
-          <div></div>
-          <div className='emploee-table__header-cell'>
-            6 мая 2023 г
-            <Segments />
-          </div>
-          <div className='emploee-table__header-cell'>
-            7 мая 2023 г
-            <Segments />
-          </div>
-          <div className='emploee-table__header-cell'>
-            8 мая 2023 г
-            <Segments />
-          </div>
-          <div className='emploee-table__header-cell'>
-            9 мая 2023 г
-            <Segments />
+        <div className='sticky'>
+          <div className='emploee-table__header'>
+            <div></div>
+            <div className='emploee-table__header-cell'>
+              6 мая 2023 г
+              <Segments />
+            </div>
+            <div className='emploee-table__header-cell mobile'>
+              7 мая 2023 г
+              <Segments />
+            </div>
+            <div className='emploee-table__header-cell mobile tablet'>
+              8 мая 2023 г
+              <Segments />
+            </div>
+            <div className='emploee-table__header-cell mobile tablet'>
+              9 мая 2023 г
+              <Segments />
+            </div>
           </div>
         </div>
 
         <div className='emploee-table__body'>
           <div>Петров Ваня</div>
           <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+          <div className='mobile'></div>
+          <div className='mobile tablet'></div>
+          <div className='mobile tablet'></div>
 
           <div>Иванов Петя</div>
           <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+          <div className='mobile'></div>
+          <div className='mobile tablet'></div>
+          <div className='mobile tablet'></div>
 
           <div>Сидоров Андрей</div>
           <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+          <div className='mobile'></div>
+          <div className='mobile tablet'></div>
+          <div className='mobile tablet'></div>
 
           <div>Бодров Кирилл</div>
           <div></div>
+          <div className='mobile'></div>
+          <div className='mobile tablet'></div>
+          <div className='mobile tablet'></div>
+
+          <div>Петров Ваня</div>
           <div></div>
+          <div className='mobile'></div>
+          <div className='mobile tablet'></div>
+          <div className='mobile tablet'></div>
+
+          <div>Иванов Петя</div>
           <div></div>
+          <div className='mobile'></div>
+          <div className='mobile tablet'></div>
+          <div className='mobile tablet'></div>
+
+          <div>Сидоров Андрей</div>
           <div></div>
+          <div className='mobile'></div>
+          <div className='mobile tablet'></div>
+          <div className='mobile tablet'></div>
+
+          <div>Бодров Кирилл</div>
+          <div></div>
+          <div className='mobile'></div>
+          <div className='mobile tablet'></div>
+          <div className='mobile tablet'></div>
+          
+          <div>Петров Ваня</div>
+          <div></div>
+          <div className='mobile'></div>
+          <div className='mobile tablet'></div>
+          <div className='mobile tablet'></div>
+
+          <div>Иванов Петя</div>
+          <div></div>
+          <div className='mobile'></div>
+          <div className='mobile tablet'></div>
+          <div className='mobile tablet'></div>
+
+          <div>Сидоров Андрей</div>
+          <div></div>
+          <div className='mobile'></div>
+          <div className='mobile tablet'></div>
+          <div className='mobile tablet'></div>
+
+          <div>Бодров Кирилл</div>
+          <div></div>
+          <div className='mobile'></div>
+          <div className='mobile tablet'></div>
+          <div className='mobile tablet'></div>
+          
+          <div>Петров Ваня</div>
+          <div></div>
+          <div className='mobile'></div>
+          <div className='mobile tablet'></div>
+          <div className='mobile tablet'></div>
+
+          <div>Иванов Петя</div>
+          <div></div>
+          <div className='mobile'></div>
+          <div className='mobile tablet'></div>
+          <div className='mobile tablet'></div>
+
+          <div>Сидоров Андрей</div>
+          <div></div>
+          <div className='mobile'></div>
+          <div className='mobile tablet'></div>
+          <div className='mobile tablet'></div>
+
+          <div>Бодров Кирилл</div>
+          <div></div>
+          <div className='mobile'></div>
+          <div className='mobile tablet'></div>
+          <div className='mobile tablet'></div>
+          
         </div>
       </div>
     </div>

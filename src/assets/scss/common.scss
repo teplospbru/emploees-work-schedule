@@ -25,6 +25,11 @@ body {
 h1 {
     @include font(40, 700, 50);
     margin: 60px 0 40px;
+
+    @media screen and (max-width: 960px) {
+        @include font(32, 700, 40);
+        margin: 30px 0 30px;
+    }
 }
 
 button {
@@ -55,4 +60,8 @@ select {
     option {
         background-color: transparent;
     }
+}
+
+.disactive {
+    display: none;
 }
