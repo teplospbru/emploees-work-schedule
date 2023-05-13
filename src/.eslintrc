@@ -16,6 +16,7 @@
         "browser": true
     },
     "rules": {
-        "@typescript-slint/no-explicit-eny": "off"
+        "@typescript-slint/no-explicit-eny": "off",
+        "no-console": "warn"
     }
 }
