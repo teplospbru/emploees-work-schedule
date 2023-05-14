@@ -4,6 +4,7 @@ import '../../assets/svg/arrow-down.svg';
 import '../../assets/svg/arrow-left.svg';
 import '../../assets/svg/arrow-right.svg';
 import './App.scss';
+import { useSwipeable } from 'react-swipeable';
 
 const arr = ['Петров Ваня', 'Иванов Петя', 'Сидоров Андрей', 'Бодров Кирилл', 'Петров Ваня', 'Иванов Петя', 'Сидоров Андрей', 'Бодров Кирилл', 
 'Петров Ваня', 'Иванов Петя', 'Сидоров Андрей', 'Бодров Кирилл', 'Петров Ваня', 'Иванов Петя', 'Сидоров Андрей', 'Бодров Кирилл', 
@@ -12,6 +13,20 @@ const arr = ['Петров Ваня', 'Иванов Петя', 'Сидоров �
 export const App = () => {
   const [period, setPeriod] = useState<number>(4); // период - кол-во дней просмотра 
   const [firstColumnWidth, setFirstColumnWidth] = useState('300px'); // ширина первой колонки таблицы, чтобы поддержать адаптив
+  const [calendar, setCalendar] = useState<string>('6 мая 2023 г'); // стейт выпадающего списка календаря
+
+  // Настройка свайпов
+  const handlers = useSwipeable({
+    onSwipedLeft: () => setCalendar('7 мая 2023 г'),
+    onSwipedRight: () => setCalendar('6 мая 2023 г'),
+    delta: 10,
+    preventScrollOnSwipe: false,
+    trackTouch: true,
+    trackMouse: true,
+    rotationAngle: 0,
+    swipeDuration: Infinity,
+    touchEventOptions: { passive: true },
+  })
 
   // Компонент отрисует шкалу времени
   const Segments = () => (
@@ -89,7 +104,7 @@ export const App = () => {
               </svg>
             </button>
             <div>
-              <select onClick={(event) => console.log(event)}>
+              <select value={calendar} onChange={(event) => setCalendar(event.target.value)}>
                 <option>6 мая 2023 г</option>
                 <option>7 мая 2023 г</option>
               </select>
@@ -124,7 +139,7 @@ export const App = () => {
         </div>
       </nav>
 
-      <div className='emploee-table'>
+      <div {...handlers} className='emploee-table'>
         <div className='sticky'>
           <div className='emploee-table__header' style={{ gridTemplateColumns: `${firstColumnWidth} repeat(${period}, 1fr)` }}>
             <div></div>
