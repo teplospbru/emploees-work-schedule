@@ -137,7 +137,7 @@ export const App = () => {
               </svg>
             </button>
             <div>
-              <select value={calendar} onChange={(event) => setCalendar(event.target.value)}>
+              <select value={calendar} onChange={(event) => setCalendar(Number(event.target.value))}>
                 {
                   data.dateList.map((option, index) => (
                     <option value={index + 1} key={option}>{dayjs(option).format('DD MMMM YYYY')}</option>
