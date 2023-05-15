@@ -14,6 +14,10 @@
         background-color: var(--green-color);
         border-radius: 5px;
         cursor: pointer;
+
+        &:hover + .cell__tooltip {
+            display: block;
+        }
     }
 
     &__fact {
@@ -30,6 +34,34 @@
 
         &:hover {
             animation: gradient 10s linear infinite;
+        }
+
+        &:hover + .cell__tooltip {
+            display: block;
+        }
+    }
+
+    &__tooltip {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -120%);
+        background-color: #fff;
+        padding: 1rem 1.5rem;
+        border-radius: 5px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+        max-width: 300px;
+        min-width: 250px;
+        @include font(16, 400, 22);
+        z-index: 10;
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            margin-bottom: 1.5rem;
         }
     }
 }

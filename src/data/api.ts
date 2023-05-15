@@ -5,6 +5,7 @@ import { plan } from "./plan";
 import { EmploeesData, Shops, Response, WorkShifts } from './types';
 import { CSSProperties } from 'react';
 
+// эта функция сгенерирует "ответ api"
 export const getExploees = (): Promise<Response> => {
     return new Promise((resolve, reject) => {
         try {
@@ -111,6 +112,7 @@ export const getExploees = (): Promise<Response> => {
     })
 }
 
+// возвращает объекты рабочих смен для определённого работника на определённую дату
 export const getWorkingShifts = (data: EmploeesData, name: string, date: string): WorkShifts => {
     const a = data.data.find(item => item.name === name);
     const b = (a as WorkShifts).workingShifts.filter(item => item.day_1 === date);
@@ -118,6 +120,7 @@ export const getWorkingShifts = (data: EmploeesData, name: string, date: string)
     return { name, workingShifts: [...b] }
 }
 
+// рассчитывает отступы для отображения смен
 export const getMargins = (from: string, to: string): CSSProperties => {
     const a = new Date(from);
     const b = new Date(to);
@@ -131,4 +134,22 @@ export const getMargins = (from: string, to: string): CSSProperties => {
     const totalMinutes = 24*60;
 
     return { margin: `0 ${(fromHours * 60 + fromMinutes) * 100/totalMinutes}% 0 ${ 100 - (toHours * 60 + toMinutes) * 100/totalMinutes}%` }
+}
+
+// возвращает длительность смены
+export const getDuration = (from: string, to: string): string => {
+    const a = new Date(from);
+    const b = new Date(to);
+
+    const fromHours = a.getHours();
+    const fromMinutes = a.getMinutes();
+
+    const toHours = b.getHours();
+    const toMinutes = b.getMinutes();
+
+    const fromTotal = fromHours * 60 + fromMinutes;
+    const toTotal = toHours * 60 + toMinutes;
+    const diffMinutes = toTotal - fromTotal;
+
+    return `${Math.floor(diffMinutes / 60)} часов ${diffMinutes % 60 ? diffMinutes % 60 : '00'} минут`
 }

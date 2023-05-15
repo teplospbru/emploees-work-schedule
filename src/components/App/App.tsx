@@ -254,16 +254,32 @@ export const App = () => {
             <>
               <div>{emploee.name}</div>
               <div>
-                <Cell workingShifts={getWorkingShifts(tableData, emploee.name, data.dateList[slider - 1])} date={data.dateList[slider - 1]} />
+                <Cell 
+                  workingShifts={getWorkingShifts(tableData, emploee.name, data.dateList[slider - 1])} 
+                  date={data.dateList[slider - 1]} 
+                  name={ emploee.name }
+                />
               </div>
               <div className={classNames('mobile', {'disactive': period < 2})}>
-                <Cell workingShifts={getWorkingShifts(tableData, emploee.name, data.dateList[slider])} date={data.dateList[slider]} />
+                <Cell 
+                  workingShifts={getWorkingShifts(tableData, emploee.name, data.dateList[slider])} 
+                  date={data.dateList[slider]} 
+                  name={ emploee.name }
+                />
               </div>
               <div className={classNames('mobile tablet', {'disactive': period < 3})}>
-                <Cell workingShifts={getWorkingShifts(tableData, emploee.name, data.dateList[slider + 1])} date={data.dateList[slider + 1]} />
+                <Cell 
+                  workingShifts={getWorkingShifts(tableData, emploee.name, data.dateList[slider + 1])} 
+                  date={data.dateList[slider + 1]} 
+                  name={ emploee.name }
+                />
               </div>
               <div className={classNames('mobile tablet', {'disactive': period < 4})}>
-                <Cell workingShifts={getWorkingShifts(tableData, emploee.name, data.dateList[slider + 2])} date={data.dateList[slider + 2]} />
+                <Cell 
+                  workingShifts={getWorkingShifts(tableData, emploee.name, data.dateList[slider + 2])} 
+                  date={data.dateList[slider + 2]} 
+                  name={ emploee.name }
+                />
               </div>
             </>
           ))}

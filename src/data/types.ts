@@ -1,4 +1,4 @@
-// Тип данных (сотрудник, магазин, роль, с_дата_время, по_дата_время)
+// входной тип данных (сотрудник, магазин, роль, с_дата_время, по_дата_время)
 export interface Data {
     emploee: string;
     shop: string;
@@ -7,6 +7,7 @@ export interface Data {
     to: string;
 }
 
+// данные рабочей смены
 export interface WorkingShift {
     day_1: string;
     day_2: string;
@@ -22,16 +23,19 @@ export interface Shops {
     data: WorkingShift[] 
 }
 
+// Рабочие смены конкретного работника
 export interface WorkShifts {
     name: string;
     workingShifts: WorkingShift[]
 }
 
+// список работников с рабочими сменами для конкретного магазина
 export interface EmploeesData {
     shop: string;
     data: WorkShifts[]
 }
 
+// ответ от api
 export interface Response {
     dateList: string[];
     emploeesData: EmploeesData[];
