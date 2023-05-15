@@ -1,13 +1,14 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import classNames from 'classnames';
-import { getExploees } from '../../data/api';
+import { getExploees, getWorkingShifts } from '../../data/api';
 import { EmploeesData, Response } from '../../data/types';
 import dayjs from 'dayjs';
 import '../../assets/svg/arrow-down.svg';
 import '../../assets/svg/arrow-left.svg';
 import '../../assets/svg/arrow-right.svg';
 import './App.scss';
+import { Cell } from '../Cell/Cell';
 
 export const App = () => {
   const [period, setPeriod] = useState<number>(4); // период - кол-во дней просмотра в таблице
@@ -252,10 +253,18 @@ export const App = () => {
           {tableData && tableData.data.map((emploee) => (
             <>
               <div>{emploee.name}</div>
-              <div></div>
-              <div className={classNames('mobile', {'disactive': period < 2})}></div>
-              <div className={classNames('mobile tablet', {'disactive': period < 3})}></div>
-              <div className={classNames('mobile tablet', {'disactive': period < 4})}></div>
+              <div>
+                <Cell workingShifts={getWorkingShifts(tableData, emploee.name, data.dateList[slider - 1])} date={data.dateList[slider - 1]} />
+              </div>
+              <div className={classNames('mobile', {'disactive': period < 2})}>
+                <Cell workingShifts={getWorkingShifts(tableData, emploee.name, data.dateList[slider])} date={data.dateList[slider]} />
+              </div>
+              <div className={classNames('mobile tablet', {'disactive': period < 3})}>
+                <Cell workingShifts={getWorkingShifts(tableData, emploee.name, data.dateList[slider + 1])} date={data.dateList[slider + 1]} />
+              </div>
+              <div className={classNames('mobile tablet', {'disactive': period < 4})}>
+                <Cell workingShifts={getWorkingShifts(tableData, emploee.name, data.dateList[slider + 2])} date={data.dateList[slider + 2]} />
+              </div>
             </>
           ))}
         </div>

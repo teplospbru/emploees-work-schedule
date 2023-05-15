@@ -2,7 +2,8 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/ru';
 import { fact } from "./fact";
 import { plan } from "./plan";
-import { EmploeesData, Shops, Response } from './types';
+import { EmploeesData, Shops, Response, WorkShifts } from './types';
+import { CSSProperties } from 'react';
 
 export const getExploees = (): Promise<Response> => {
     return new Promise((resolve, reject) => {
@@ -108,4 +109,26 @@ export const getExploees = (): Promise<Response> => {
             reject(new Error('Ошибка парсинга расписаний!'))
         }
     })
+}
+
+export const getWorkingShifts = (data: EmploeesData, name: string, date: string): WorkShifts => {
+    const a = data.data.find(item => item.name === name);
+    const b = (a as WorkShifts).workingShifts.filter(item => item.day_1 === date);
+    
+    return { name, workingShifts: [...b] }
+}
+
+export const getMargins = (from: string, to: string): CSSProperties => {
+    const a = new Date(from);
+    const b = new Date(to);
+
+    const fromHours = a.getHours();
+    const fromMinutes = a.getMinutes();
+
+    const toHours = b.getHours();
+    const toMinutes = b.getMinutes();
+
+    const totalMinutes = 24*60;
+
+    return { margin: `0 ${(fromHours * 60 + fromMinutes) * 100/totalMinutes}% 0 ${ 100 - (toHours * 60 + toMinutes) * 100/totalMinutes}%` }
 }

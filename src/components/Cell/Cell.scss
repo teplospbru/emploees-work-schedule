@@ -1,0 +1,41 @@
+@import '../../assets/scss/_mixin.scss';
+
+.cell {
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    &__plan {
+        position: absolute;
+        top: 10%;
+        bottom: 10%;
+        left: 0;
+        right: 0;
+        background-color: var(--green-color);
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    &__fact {
+        position: absolute;
+        top: 10%;
+        bottom: 10%;
+        left: 0;
+        right: 0;
+        background-color: transparent;
+        background-image: repeating-linear-gradient(-45deg, transparent, transparent 0.65rem, var(--pink-color) 0.65rem, var(--pink-color) 1rem);
+        background-size: 200% 200%;
+        border-radius: 5px;
+        cursor: pointer;
+
+        &:hover {
+            animation: gradient 10s linear infinite;
+        }
+    }
+}
+ 
+@keyframes gradient {
+	100% {
+		background-position: 100% 100%;
+	}
+}

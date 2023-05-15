@@ -7,29 +7,24 @@ export interface Data {
     to: string;
 }
 
+export interface WorkingShift {
+    day_1: string;
+    day_2: string;
+    emploee: string;
+    role: string;
+    from: string;
+    to: string;
+    type: 'plan' | 'fact';
+}
+
 export interface Shops {
     shop: string;
-    data: {
-        day_1: string;
-        day_2: string;
-        emploee: string;
-        role: string;
-        from: string;
-        to: string;
-        type: 'plan' | 'fact';
-    }[] 
+    data: WorkingShift[] 
 }
 
 export interface WorkShifts {
     name: string;
-    workingShifts: {
-        day_1: string;
-        day_2: string;
-        role: string;
-        from: string;
-        to: string;
-        type: 'plan' | 'fact';
-    }[]
+    workingShifts: WorkingShift[]
 }
 
 export interface EmploeesData {
