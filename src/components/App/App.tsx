@@ -9,17 +9,15 @@ import '../../assets/svg/arrow-left.svg';
 import '../../assets/svg/arrow-right.svg';
 import './App.scss';
 
-const arr = ['Петров Ваня', 'Иванов Петя', 'Сидоров Андрей', 'Бодров Кирилл', 'Петров Ваня', 'Иванов Петя', 'Сидоров Андрей', 'Бодров Кирилл', 
-'Петров Ваня', 'Иванов Петя', 'Сидоров Андрей', 'Бодров Кирилл', 'Петров Ваня', 'Иванов Петя', 'Сидоров Андрей', 'Бодров Кирилл', 
-'Петров Ваня', 'Иванов Петя', 'Сидоров Андрей', 'Бодров Кирилл', 'Петров Ваня', 'Иванов Петя', 'Сидоров Андрей', 'Бодров Кирилл',];
-
 export const App = () => {
-  const [period, setPeriod] = useState<number>(4); // период - кол-во дней просмотра 
+  const [period, setPeriod] = useState<number>(4); // период - кол-во дней просмотра в таблице
   const [firstColumnWidth, setFirstColumnWidth] = useState('300px'); // ширина первой колонки таблицы, чтобы поддержать адаптив
   const [data, setData] = useState<Response | null>(null); // все данные от api
+  const [length, setLength] = useState<number | null>(null); // длина массива дат
   const [calendar, setCalendar] = useState<number>(1); // стейт выпадающего списка календаря
-  const [shop, setShop] = useState(''); // стейт магазина
-  const [tableData, setTableData] = useState<EmploeesData | null>(null); // данные для таблицы (зависят от магазина)
+  const [shop, setShop] = useState(''); // стейт селекта магазина
+  const [tableData, setTableData] = useState<EmploeesData | null>(null); // данные для таблицы (зависят от выбранного магазина)
+  const [slider, setSlider] = useState<number>(1); // значение, подобное стейту календаря, нужно, чтобы даты в таблице не выхадили за диапазон календаря
 
   // Компонент отрисует шкалу времени
   const Segments = () => (
@@ -33,6 +31,44 @@ export const App = () => {
       <div></div>
     </div>
   )
+
+  // Хэндлер селекта календаря
+  const calendarClickHandler = (event: ChangeEvent<HTMLSelectElement>) => {
+    const value = Number(event.target.value);
+    setCalendar(value);
+
+    if(length && length !== null) {
+      if(value < (length - (period - 1))) {
+        setSlider(value);
+      } else {
+        setSlider(length - (period - 1));
+      }
+    }
+  };
+
+  // Хэндлер клика пострелке влево
+  const moveLeft = () => {
+    if(length !== null) {
+      if(calendar > 1) {
+        setCalendar(prev => prev - 1);
+      };
+      if(slider > 1) {
+        setSlider(prev => prev - 1);
+      }
+    }
+  }
+
+  // Хэндлер клика по стрелке вправо
+  const moveRight = () => {
+    if(length !== null) {
+      if(calendar < length) {
+        setCalendar(prev => prev + 1);
+      };
+      if(slider < (length - (period - 1))) {
+        setSlider(prev => prev + 1);
+      }
+    }
+  }
 
   // устанвливаем перид и ширину первой колонки в зависимости от ширины окна при первом рендере
   useEffect(() => {
@@ -74,8 +110,8 @@ export const App = () => {
 
   // Настройка свайпов
   const handlers = useSwipeable({
-    onSwipedLeft: () => setCalendar(1),
-    onSwipedRight: () => setCalendar(6),
+    onSwipedLeft: () => moveRight(),
+    onSwipedRight: () => moveLeft(),
     delta: 10,
     preventScrollOnSwipe: false,
     trackTouch: true,
@@ -85,6 +121,7 @@ export const App = () => {
     touchEventOptions: { passive: true },
   });
 
+  // здесь настраивается стейт данными от api после моунта компонента
   useEffect(() => {
     getExploees()
       .then((response) => {
@@ -93,10 +130,12 @@ export const App = () => {
         setShop(a);
         const b = response.emploeesData.find(item => item.shop === a) as EmploeesData;
         setTableData(b);
+        setLength(response.dateList.length);
       })
       .catch((response) => console.log(response))
   }, []);
 
+  // здесь настраивается стейт таблицы в зависимости от выбранного магазина
   useEffect(() => {
     if(data !== null) {
       const b = data.emploeesData.find(item => item.shop === shop) as EmploeesData;
@@ -104,10 +143,21 @@ export const App = () => {
     }
   }, [shop, data]);
 
+  // обновляем даты в таблице при переключении периода
+  useEffect(() => {
+    if(length && length !== null) {
+      if(calendar < (length - (period - 1))) {
+        setSlider(calendar);
+      } else {
+        setSlider(length - (period - 1));
+      }
+    }
+  }, [period, length, slider, calendar])
+
   if(data === null) {
     return null;
   };
-  console.log(tableData)
+  // console.log(slider)
   return (
     <div className='container'>
       <h1>График работы сотрудников</h1>
@@ -131,13 +181,13 @@ export const App = () => {
         <div className='sort-panel__calendar'>
           Отображать с
           <div className='sort-panel__calendar-date'>
-            <button>
+            <button onClick={moveLeft}>
               <svg className='sort-panel__arrow-left'>
                 <use xlinkHref='#arrow-left'></use>
               </svg>
             </button>
             <div>
-              <select value={calendar} onChange={(event) => setCalendar(Number(event.target.value))}>
+              <select value={calendar} onChange={(event) => calendarClickHandler(event)}>
                 {
                   data.dateList.map((option, index) => (
                     <option value={index + 1} key={option}>{dayjs(option).format('DD MMMM YYYY')}</option>
@@ -148,7 +198,7 @@ export const App = () => {
                 <use xlinkHref='#arrow-down'></use>
               </svg>
             </div>
-            <button>
+            <button onClick={moveRight}>
               <svg className='sort-panel__arrow-right'>
                 <use xlinkHref='#arrow-right'></use>
               </svg>
@@ -180,19 +230,19 @@ export const App = () => {
           <div className='emploee-table__header' style={{ gridTemplateColumns: `${firstColumnWidth} repeat(${period}, 1fr)` }}>
             <div></div>
             <div className='emploee-table__header-cell'>
-              6 мая 2023 г
+              { dayjs(data.dateList[slider - 1]).format('D MMMM YYYY') }
               <Segments />
             </div>
             <div className={classNames('emploee-table__header-cell mobile', {'disactive': period < 2})}>
-              7 мая 2023 г
+              { dayjs(data.dateList[slider]).format('D MMMM YYYY') }
               <Segments />
             </div>
             <div className={classNames('emploee-table__header-cell mobile tablet', {'disactive': period < 3})}>
-              8 мая 2023 г
+              { dayjs(data.dateList[slider + 1]).format('D MMMM YYYY') }
               <Segments />
             </div>
             <div className={classNames('emploee-table__header-cell mobile tablet', {'disactive': period < 4})}>
-              9 мая 2023 г
+              { dayjs(data.dateList[slider + 2]).format('D MMMM YYYY') }
               <Segments />
             </div>
           </div>
