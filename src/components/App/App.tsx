@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import classNames from 'classnames';
 import { getExploees } from '../../data/api';
+import { EmploeesData, Response } from '../../data/types';
+import dayjs from 'dayjs';
 import '../../assets/svg/arrow-down.svg';
 import '../../assets/svg/arrow-left.svg';
 import '../../assets/svg/arrow-right.svg';
@@ -14,7 +16,10 @@ const arr = ['Петров Ваня', 'Иванов Петя', 'Сидоров �
 export const App = () => {
   const [period, setPeriod] = useState<number>(4); // период - кол-во дней просмотра 
   const [firstColumnWidth, setFirstColumnWidth] = useState('300px'); // ширина первой колонки таблицы, чтобы поддержать адаптив
-  const [calendar, setCalendar] = useState<string>('6 мая 2023 г'); // стейт выпадающего списка календаря
+  const [data, setData] = useState<Response | null>(null); // все данные от api
+  const [calendar, setCalendar] = useState<number>(1); // стейт выпадающего списка календаря
+  const [shop, setShop] = useState(''); // стейт магазина
+  const [tableData, setTableData] = useState<EmploeesData | null>(null); // данные для таблицы (зависят от магазина)
 
   // Компонент отрисует шкалу времени
   const Segments = () => (
@@ -69,8 +74,8 @@ export const App = () => {
 
   // Настройка свайпов
   const handlers = useSwipeable({
-    onSwipedLeft: () => setCalendar('7 мая 2023 г'),
-    onSwipedRight: () => setCalendar('6 мая 2023 г'),
+    onSwipedLeft: () => setCalendar(1),
+    onSwipedRight: () => setCalendar(6),
     delta: 10,
     preventScrollOnSwipe: false,
     trackTouch: true,
@@ -82,10 +87,27 @@ export const App = () => {
 
   useEffect(() => {
     getExploees()
-      .then((response) => console.log(response))
+      .then((response) => {
+        setData(response);
+        const a = response.shopList[0];
+        setShop(a);
+        const b = response.emploeesData.find(item => item.shop === a) as EmploeesData;
+        setTableData(b);
+      })
       .catch((response) => console.log(response))
-  }, [])
+  }, []);
 
+  useEffect(() => {
+    if(data !== null) {
+      const b = data.emploeesData.find(item => item.shop === shop) as EmploeesData;
+      setTableData(b);
+    }
+  }, [shop, data]);
+
+  if(data === null) {
+    return null;
+  };
+  console.log(tableData)
   return (
     <div className='container'>
       <h1>График работы сотрудников</h1>
@@ -93,9 +115,12 @@ export const App = () => {
         <div className='sort-panel__shop'>
           Магазин
           <div>
-            <select onClick={(event) => console.log(event)}>
-              <option>магазин 1</option>
-              <option>магазин 2</option>
+            <select onChange={(event) => setShop(event.target.value)}>
+              {
+                data.shopList.map(option => (
+                  <option value={option} key={option}>{option}</option>
+                ))
+              }
             </select>
             <svg className='sort-panel__arrow-down'>
               <use xlinkHref='#arrow-down'></use>
@@ -113,8 +138,11 @@ export const App = () => {
             </button>
             <div>
               <select value={calendar} onChange={(event) => setCalendar(event.target.value)}>
-                <option>6 мая 2023 г</option>
-                <option>7 мая 2023 г</option>
+                {
+                  data.dateList.map((option, index) => (
+                    <option value={index + 1} key={option}>{dayjs(option).format('DD MMMM YYYY')}</option>
+                  ))
+                }
               </select>
               <svg className='sort-panel__arrow-down'>
                 <use xlinkHref='#arrow-down'></use>
@@ -171,9 +199,9 @@ export const App = () => {
         </div>
 
         <div className='emploee-table__body' style={{ gridTemplateColumns: `${firstColumnWidth} repeat(${period}, 1fr)` }}>
-          {arr.map((emploee) => (
+          {tableData && tableData.data.map((emploee) => (
             <>
-              <div>{emploee}</div>
+              <div>{emploee.name}</div>
               <div></div>
               <div className={classNames('mobile', {'disactive': period < 2})}></div>
               <div className={classNames('mobile tablet', {'disactive': period < 3})}></div>

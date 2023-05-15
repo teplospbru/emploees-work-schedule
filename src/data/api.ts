@@ -4,7 +4,7 @@ import { fact } from "./fact";
 import { plan } from "./plan";
 import { EmploeesData, Shops, Response } from './types';
 
-export const getExploees = () => {
+export const getExploees = (): Promise<Response> => {
     return new Promise((resolve, reject) => {
         try {
             const arr: string[] = [];
