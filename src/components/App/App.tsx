@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import classNames from 'classnames';
 import { getExploees, getWorkingShifts } from '../../data/api';
@@ -51,14 +51,25 @@ export const App = () => {
     }
   };
 
+  // мемоизация для хэндлера клика пострелке влево, чтобы пофиксить ненужные перерендеры
+  const memoizedSlider = useCallback(() => {
+    if(length && length !== null) {
+      if (calendar < length - (period - 1)) {
+        setSlider(calendar)
+      } else {
+        setSlider(length - (period - 1));
+      }
+    }
+  }, [calendar])
+
   // Хэндлер клика пострелке влево
   const moveLeft = () => {
     if (length !== null) {
       if (calendar > 1) {
-        setCalendar((prev) => prev - 1);
+        setCalendar(calendar - 1);
       }
       if (slider > 1) {
-        setSlider((prev) => prev - 1);
+        memoizedSlider()
       }
     }
   };
@@ -127,8 +138,10 @@ export const App = () => {
 
   // здесь настраивается стейт данными от api после моунта компонента
   useEffect(() => {
+    console.time()
     getExploees()
       .then((response) => {
+        console.timeEnd()
         setData(response);
         const a = response.shopList[0];
         setShop(a);
@@ -149,14 +162,8 @@ export const App = () => {
 
   // обновляем даты в таблице при переключении периода
   useEffect(() => {
-    if (length && length !== null) {
-      if (calendar < length - (period - 1)) {
-        setSlider(calendar);
-      } else {
-        setSlider(length - (period - 1));
-      }
-    }
-  }, [period, length, slider, calendar]);
+    memoizedSlider()
+  }, [period, memoizedSlider]);
 
   if (data === null) {
     return null;
