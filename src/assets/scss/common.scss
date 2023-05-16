@@ -69,3 +69,13 @@ select {
 .disactive {
     display: none;
 }
+
+.green {
+    color: var(--green-color);
+    font-weight: 600;
+}
+
+.pink {
+    color: var(--pink-color);
+    font-weight: 600;
+}
