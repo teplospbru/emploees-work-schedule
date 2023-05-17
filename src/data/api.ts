@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 import 'dayjs/locale/ru';
-import utc from 'dayjs/plugin/utc';
 import { fact } from './fact';
 import { plan } from './plan';
 import { EmploeesData, Shops, Response, WorkShifts } from './types';
@@ -30,7 +29,6 @@ export const getExploees = (): Promise<Response> => {
       // распределяем объекты по магазинам
       const shops: Shops[] = arr.map((item) => ({ shop: item, data: [] }));
 
-      dayjs.extend(utc);
       dayjs.locale('ru');
 
       plan.forEach((item) => {
@@ -39,10 +37,8 @@ export const getExploees = (): Promise<Response> => {
         shops[index].data.push({
           ...item,
           type: 'plan',
-          day_1: dayjs(item.from).utc().format('YYYY-MM-DD'),
-          day_2: dayjs(item.from).utc().format('D MMMM YYYY'),
-          fromUTC: dayjs(item.from).local().format(),
-          toUTC: dayjs(item.to).local().format(),
+          day_1: dayjs(item.from).format('YYYY-MM-DD'),
+          day_2: dayjs(item.from).format('D MMMM YYYY'),
         });
       });
 
@@ -54,8 +50,6 @@ export const getExploees = (): Promise<Response> => {
           type: 'fact',
           day_1: dayjs(item.from).format('YYYY-MM-DD'),
           day_2: dayjs(item.from).format('D MMMM YYYY'),
-          fromUTC: dayjs(item.from).local().format(),
-          toUTC: dayjs(item.to).local().format(),
         });
       });
 

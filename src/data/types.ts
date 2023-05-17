@@ -11,8 +11,6 @@ export interface Data {
 export interface WorkingShift {
   day_1: string;
   day_2: string;
-  fromUTC: string;
-  toUTC: string;
   emploee: string;
   role: string;
   from: string;

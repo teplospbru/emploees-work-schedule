@@ -10,6 +10,7 @@ interface CellProps extends HTMLAttributes<HTMLDivElement> {
   name: string;
 }
 
+// компонент отрисует смены
 const Cell: FC<CellProps> = ({ workingShifts, date, name }) => {
   const [plan, setPlan] = useState<WorkingShift | null>(null);
   const [fact, setFact] = useState<WorkingShift | null>(null);
@@ -50,12 +51,12 @@ const Cell: FC<CellProps> = ({ workingShifts, date, name }) => {
         </p>
         {plan && (
           <p>
-            <b>Плановая длительность смены:</b> <span className="green">{getDuration(plan.fromUTC, plan.toUTC)}</span>
+            <b>Плановая длительность смены:</b> <span className="green">{getDuration(plan.from, plan.to)}</span>
           </p>
         )}
         {fact && (
           <p>
-            <b>Фактическая длительность смены:</b> <span className="pink">{getDuration(fact.fromUTC, fact.toUTC)}</span>
+            <b>Фактическая длительность смены:</b> <span className="pink">{getDuration(fact.from, fact.to)}</span>
           </p>
         )}
       </div>

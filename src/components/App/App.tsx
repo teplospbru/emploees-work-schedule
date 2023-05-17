@@ -9,6 +9,7 @@ import '../../assets/svg/arrow-left.svg';
 import '../../assets/svg/arrow-right.svg';
 import './App.scss';
 import Cell from '../Cell/Cell';
+import Segments from '../Segments/Segments';
 
 export const App = () => {
   const [period, setPeriod] = useState<number>(4); // период - кол-во дней просмотра в таблице
@@ -19,23 +20,6 @@ export const App = () => {
   const [shop, setShop] = useState(''); // стейт селекта магазина
   const [tableData, setTableData] = useState<EmploeesData | null>(null); // данные для таблицы (зависят от выбранного магазина)
   const [slider, setSlider] = useState<number>(1); // значение, подобное стейту календаря, нужно, чтобы даты в таблице не выхадили за диапазон календаря
-
-  // Компонент отрисует шкалу времени
-  const Segments = () => (
-    <div className="emploee-table__header-cell-hours-segments">
-      <div></div>
-      <div></div>
-      <div>
-        <div>9:00</div>
-      </div>
-      <div></div>
-      <div></div>
-      <div>
-        <div>18:00</div>
-      </div>
-      <div></div>
-    </div>
-  );
 
   // Хэндлер селекта календаря
   const calendarClickHandler = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -241,19 +225,19 @@ export const App = () => {
             <div></div>
             <div className="emploee-table__header-cell">
               {dayjs(data.dateList[slider - 1]).format('D MMMM YYYY')}
-              <Segments />
+              <Segments period={period} firstColumnWidth={firstColumnWidth} />
             </div>
             <div className={classNames('emploee-table__header-cell mobile', { disactive: period < 2 })}>
               {dayjs(data.dateList[slider]).format('D MMMM YYYY')}
-              <Segments />
+              <Segments period={period} firstColumnWidth={firstColumnWidth} />
             </div>
             <div className={classNames('emploee-table__header-cell mobile tablet', { disactive: period < 3 })}>
               {dayjs(data.dateList[slider + 1]).format('D MMMM YYYY')}
-              <Segments />
+              <Segments period={period} firstColumnWidth={firstColumnWidth} />
             </div>
             <div className={classNames('emploee-table__header-cell mobile tablet', { disactive: period < 4 })}>
               {dayjs(data.dateList[slider + 2]).format('D MMMM YYYY')}
-              <Segments />
+              <Segments period={period} firstColumnWidth={firstColumnWidth} />
             </div>
           </div>
         </div>
